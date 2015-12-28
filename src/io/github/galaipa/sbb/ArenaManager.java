@@ -22,7 +22,7 @@ public class ArenaManager {
     public static Boolean admin = false;
     public static ArenaManager am = new ArenaManager();
     public static boolean debug;
-    public static Boolean Vault, Command, WorldGuarda;
+    public static boolean PlayerPoints, Vault, Command, WorldGuarda;
     Location lobby;
     List<Arena> arenas = new ArrayList<>();
     SuperBuildBattle plugin = SuperBuildBattle.getInstance();
@@ -273,12 +273,18 @@ public class ArenaManager {
         if (Vault) {
             giveVaultRewards(p.getPlayer(), plugin.getConfig().getInt("Rewards.Vault." + s));
         }
+        if(PlayerPoints){
+            PlayerPointsOptional.givePlayerPointsRewards(p.getPlayer(),plugin.getConfig().getInt("Rewards.PlayerPoints." + s));
+        }
         if (Command) {
             plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), (plugin.getConfig().getString("Rewards.Command." + s)).replace("$player$", p.getName()));
         }
     }
 
     public void Rewards(Player p, String s) {
+        if(PlayerPoints){
+            PlayerPointsOptional.givePlayerPointsRewards(p.getPlayer(),plugin.getConfig().getInt("Rewards.PlayerPoints." + s));
+        }
         if (Vault) {
             giveVaultRewards(p.getPlayer(), plugin.getConfig().getInt("Rewards.Vault." + s));
         }

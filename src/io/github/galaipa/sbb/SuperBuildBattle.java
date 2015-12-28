@@ -1,6 +1,7 @@
 package io.github.galaipa.sbb;
 
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -57,6 +58,12 @@ public class SuperBuildBattle extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AdminGui(), this);
         getServer().getPluginManager().registerEvents(new InGameGui(), this);
         loadTranslations();
+        if (Bukkit.getPluginManager().getPlugin("PlayerPoints") != null && getConfig().getBoolean("Rewards.PlayerPoints.Enabled")) {
+            PlayerPointsOptional.hookPlayerPoints(Bukkit.getPluginManager().getPlugin("PlayerPoints"));
+            ArenaManager.PlayerPoints = true;
+        }else{
+            ArenaManager.PlayerPoints = false;
+        }
         if ((getConfig().getBoolean("Rewards.Vault.Enabled"))) {
             if (!setupEconomy()) {
 
